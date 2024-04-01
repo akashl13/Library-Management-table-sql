@@ -1,0 +1,35 @@
+CREATE TABLE author (
+    author_id INT AUTO_INCREMENT PRIMARY KEY,
+    author_name VARCHAR(50) NOT NULL
+);
+CREATE TABLE books (
+    book_id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(50) NOT NULL,
+    author_id INT NOT NULL,
+    publication_year INT NOT NULL,
+    description TEXT,
+    price DECIMAL(5,2) NOT NULL,
+    quantity INT NOT NULL,
+    FOREIGN KEY (author_id) REFERENCES author(author_id)
+);
+INSERT INTO author (author_id, author_name) VALUES
+    (1, 'Anish'),
+    (2, 'Sahil'),
+    (3, 'Sagar');
+INSERT INTO books (book_id, title, author_id, publication_year, description, price, quantity) VALUES
+    (1, 'B1', 1, 2000, 'D1', 10.00,10),
+    (2, 'B2', 2, 2001, 'D2', 15.00,15),
+    (3, 'B3', 3, 2002, 'D3', 20.00,20);
+SELECT
+    books.book_id,
+    books.title,
+    books.publication_year,
+    author.author_name
+FROM books INNER JOIN author ON books.author_id= author.author_id;
+SELECT COUNT(*) as total_books FROM books;
+SELECT SUM(price) as total_price FROM books;
+SELECT AVG(price) as average_price FROM books;
+SELECT SUM(quantity) as total_quantity FROM books;
+
+SELECT author_id, AVG(quantity) as average_quantity
+FROM books GROUP BY author_id;
