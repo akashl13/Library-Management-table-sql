@@ -1,0 +1,52 @@
+CREATE TABLE Salesman (
+    salesman_id INT PRIMARY KEY,
+    salesman_name VARCHAR(100),
+    city VARCHAR(100)
+);
+
+CREATE TABLE Customer (
+    customer_id INT PRIMARY KEY,
+    customer_name VARCHAR(100),
+    city VARCHAR(100)
+);
+
+CREATE TABLE Orders (
+    ord_no INT PRIMARY KEY,
+    purch_amt DECIMAL(10, 2),
+    ord_date DATE,
+    customer_id INT,
+    salesman_id INT,
+    FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
+    FOREIGN KEY (salesman_id) REFERENCES Salesman(salesman_id)
+);
+
+INSERT INTO Salesman (salesman_id, salesman_name, city)
+VALUES
+    (1, 'John Doe', 'New York'),
+    (2, 'Alice Smith', 'London'),
+    (3, 'Mc Lyon', 'Paris'),
+    (4, 'Ravi Kumar', 'Delhi'),
+    (5, 'Priya Patel', 'Mumbai');
+
+INSERT INTO Customer (customer_id, customer_name, city)
+VALUES
+    (2001, 'Rahul Sharma', 'Mumbai'),
+    (2002, 'Neha Gupta', 'Delhi'),
+    (2003, 'Amit Singh', 'Bangalore'),
+    (2004, 'Pooja Patel', 'Ahmedabad'),
+    (2005, 'Suresh Verma', 'Kolkata');
+
+INSERT INTO Orders (ord_no, purch_amt, ord_date, customer_id, salesman_id)
+VALUES
+    (101, 100.50, '2023-01-01', 2001, 1),
+    (102, 200.75, '2023-01-02', 2002, 2),
+    (103, 150.25, '2023-01-03', 2003, 3),
+    (104, 300.00, '2023-01-04', 2004, 4),
+    (105, 175.50, '2023-01-05', 2005, 5);
+
+SELECT Customer.*
+FROM Customer
+JOIN Orders ON Customer.customer_id = Orders.customer_id
+JOIN Salesman ON Orders.salesman_id = Salesman.salesman_id
+WHERE Customer.customer_id = 2002
+AND Salesman.salesman_id < (SELECT salesman_id FROM Salesman WHERE salesman_name = 'Ravi Kumar');
