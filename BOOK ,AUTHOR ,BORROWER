@@ -1,0 +1,133 @@
+CREATE TABLE books (
+    book_id INT PRIMARY KEY,
+    title VARCHAR(100),
+    genre VARCHAR(50),
+    author_id INT,
+    FOREIGN KEY (author_id) REFERENCES author(author_id)
+);
+CREATE TABLE author (
+    author_id INT PRIMARY KEY,
+    name VARCHAR(100)
+);
+CREATE TABLE borrowers (
+    borrower_id INT PRIMARY KEY,
+    name VARCHAR(50),
+    address VARCHAR(50),
+    birthdate DATE,
+    contact VARCHAR(50)
+);
+CREATE TABLE transactions (
+    transaction_id INT PRIMARY KEY,
+    borrower_id INT,
+    book_id INT,
+    checkout_date DATE,
+    due_date DATE,
+    return_date DATE,
+    FOREIGN KEY (borrower_id) REFERENCES borrowers(borrower_id),
+    FOREIGN KEY (book_id) REFERENCES books(book_id)
+);
+-- Data insertion
+INSERT INTO author (author_id, name)
+VALUES 
+    (276, 'Guido van Rossum'),
+    (387, 'John Smith'),
+    (498, 'Emily Brown'),
+    (573, 'Michael Johnson');
+INSERT INTO books (book_id, title, genre, author_id)
+VALUES 
+    (1, 'The Mystery of the Missing Key', 'Mystery', 276),
+    (2, 'The Secret of the Haunted Mansion', 'Mystery', 387),
+    (3, 'Murder on the Orient Express', 'Mystery', 498),
+    (4, 'The Girl with the Dragon Tattoo', 'Mystery', 573);
+INSERT INTO borrowers (borrower_id, name, address, birthdate, contact)
+VALUES 
+    (1, 'Alice', '123 Elm St', '1990-05-15', '123456789'),
+    (2, 'Bob', '456 Oak St', '1985-10-20', '987654321'),
+    (3, 'Charlie', '789 Pine St', '2000-03-25', '555123456');
+INSERT INTO transactions (transaction_id, borrower_id, book_id, checkout_date, due_date, return_date)
+VALUES 
+    (101, 1, 1, '2023-01-05', '2023-01-15', '2023-01-18'),
+    (102, 2, 2, '2023-02-10', '2023-02-20', '2023-02-25'),
+    (103, 3, 3, '2023-03-15', '2023-03-25', NULL);
+-- Queries
+-- 1) Retrieve all books from a specific genre
+SELECT b.title, a.name AS author
+FROM books b
+JOIN author a ON b.author_id = a.author_id
+WHERE b.genre = 'Mystery';
+-- 2) List the names of borrowers with overdue books
+SELECT bor.name AS borrower_name, b.title AS book_title, t.due_date
+FROM borrowers bor
+JOIN transactions t ON bor.borrower_id = t.borrower_id
+JOIN books b ON t.book_id = b.book_id
+WHERE t.due_date < CURDATE() AND t.return_date IS NULL;
+-- 3) Count the number of available copies for a particular book
+SELECT b.title, COUNT(*) AS available_copies
+FROM books b
+LEFT JOIN transactions t ON b.book_id = t.book_id AND t.return_date IS NULL
+WHERE b.book_id = 1
+GROUP BY b.title;
+-- 4) Find books borrowed by a specific user
+SELECT b.title, a.name AS author
+FROM transactions t
+JOIN books b ON t.book_id = b.book_id
+JOIN author a ON b.author_id = a.author_id
+WHERE t.borrower_id = 1;
+-- 5) Calculate the total fines accrued by a user
+SELECT SUM(DATEDIFF(return_date, due_date) * 0.50) AS total_fines
+FROM transactions
+WHERE borrower_id = 2 AND return_date > due_date;
+-- 6) List the most borrowed books
+SELECT b.title, a.name AS author, COUNT(*) AS borrow_count
+FROM transactions t
+JOIN books b ON t.book_id = b.book_id
+JOIN author a ON b.author_id = a.author_id
+GROUP BY b.title, a.name
+ORDER BY borrow_count DESC
+LIMIT 5;
+-- 7) Retrieve the books published in the last year
+SELECT b.title, a.name AS author
+FROM books b
+JOIN author a ON b.author_id = a.author_id
+WHERE YEAR(CURDATE()) - YEAR(b.publish_date) = 1;
+-- 8) Count the number of books in each genre
+SELECT genre, COUNT(*) AS book_count
+FROM books
+GROUP BY genre;
+-- 9) Find books with no copies available
+SELECT b.title, a.name AS author
+FROM books b
+JOIN author a ON b.author_id = a.author_id
+LEFT JOIN transactions t ON b.book_id = t.book_id
+WHERE t.transaction_id IS NULL;
+-- 10) List the users who have borrowed a specific book
+SELECT bor.name AS borrower_name
+FROM borrowers bor
+JOIN transactions t ON bor.borrower_id = t.borrower_id
+WHERE t.book_id = 2;
+-- 11) Calculate the average number of days a book is borrowed
+SELECT AVG(DATEDIFF(return_date, checkout_date)) AS avg_days_borrowed
+FROM transactions
+WHERE return_date IS NOT NULL;
+-- 12) Find books with similar titles
+SELECT title
+FROM books
+WHERE title LIKE '%Mystery%';
+-- 13) Retrieve the names of users who have never borrowed a book
+SELECT bor.name AS borrower_name
+FROM borrowers bor
+LEFT JOIN transactions t ON bor.borrower_id = t.borrower_id
+WHERE t.transaction_id IS NULL;
+-- 14) Count the number of books published by each author
+SELECT a.name AS author, COUNT(*) AS book_count
+FROM books b
+JOIN author a ON b.author_id = a.author_id
+GROUP BY a.name;
+-- 15) List the books with the highest number of copies available
+SELECT b.title, a.name AS author, COUNT(*) AS available_copies
+FROM books b
+LEFT JOIN transactions t ON b.book_id = t.book_id AND t.return_date IS NULL
+JOIN author a ON b.author_id = a.author_id
+GROUP BY b.title, a.name
+ORDER BY available_copies DESC
+LIMIT 1;
