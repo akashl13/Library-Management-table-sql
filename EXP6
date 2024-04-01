@@ -1,0 +1,155 @@
+==========================================================================================================================================
+-- Create Salesman table
+CREATE TABLE Salesman (
+    salesman_id INT PRIMARY KEY,
+    salesman VARCHAR(50),
+    city VARCHAR(50)
+);
+
+-- Create Customer table
+CREATE TABLE Customer (
+    cust_id INT PRIMARY KEY,
+    cust_name VARCHAR(50),
+    city VARCHAR(50)
+);
+
+-- Insert random data into Salesman table
+INSERT INTO Salesman (salesman_id, salesman, city)
+VALUES 
+    (1, 'John', 'New York'),
+    (2, 'Alice', 'Los Angeles'),
+    (3, 'Bob', 'Chicago'),
+    (4, 'Mike', 'Houston');
+
+-- Insert random data into Customer table
+INSERT INTO Customer (cust_id, cust_name, city)
+VALUES 
+    (101, 'ABC Corp', 'New York'),
+    (102, 'XYZ Inc', 'Los Angeles'),
+    (103, 'LMN Ltd', 'Chicago'),
+    (104, 'PQR Enterprises', 'Seattle');
+
+-- Query to find salespersons and customers residing in the same city
+SELECT S.salesman, C.cust_name, S.city
+FROM Salesman S
+JOIN Customer C ON S.city = C.city;
+
+===============================================================================================================================================
+CREATE TABLE Customer (
+    cust_id INT PRIMARY KEY,
+    cust_name VARCHAR(50),
+    city VARCHAR(50)
+);
+INSERT INTO Customer (cust_id, cust_name, city)
+VALUES 
+    (101, 'ABC Corp', 'New York'),
+    (102, 'XYZ Inc', 'Los Angeles'),
+    (103, 'LMN Ltd', 'Chicago'),
+    (104, 'PQR Enterprises', 'Seattle');
+
+CREATE TABLE Orders (
+    ord_no INT PRIMARY KEY,
+    purch_amt DECIMAL(10, 2),
+    cust_id INT,
+    FOREIGN KEY (cust_id) REFERENCES Customer(cust_id)
+);
+INSERT INTO Orders (ord_no, purch_amt, cust_id)
+VALUES 
+    (1, 750.00, 101),
+    (2, 1500.00, 102),
+    (3, 3000.00, 103),
+    (4, 1200.00, 104);
+SELECT a.ord_no, a.purch_amt, b.cust_name, b.city
+FROM Orders a
+JOIN Customer b ON a.cust_id = b.cust_id
+WHERE a.purch_amt BETWEEN 500 AND 2000;
+==============================================================================================================================================
+--ques no. 3--
+CREATE TABLE Salesman (
+    salesman_id INT PRIMARY KEY,
+    salesman_name VARCHAR(50),
+    commission DECIMAL(10, 2)
+);
+INSERT INTO Salesman (salesman_id, salesman_name, commission)
+VALUES 
+    (101, 'lisa', 0.1),
+    (102, 'Anup', 0.12),
+    (103, 'Bhopesh', 0.08),
+    (104, 'Mehak', 0.15);
+CREATE TABLE Customer (
+    cust_id INT PRIMARY KEY,
+    cust_name VARCHAR(50),
+    city VARCHAR(50),
+    salesman_id INT,
+    FOREIGN KEY (salesman_id) REFERENCES Salesman(salesman_id)
+);
+INSERT INTO Customer (cust_id, cust_name, city, salesman_id)
+VALUES 
+    (201, 'ABC Corp', 'New York', 101),
+    (202, 'XYZ Inc', 'Los Angeles', 102),
+    (203, 'LMN Ltd', 'Chicago', 103),
+    (204, 'PQR Enterprises', 'Seattle', 104);
+SELECT C.cust_name, C.city, S.salesman_name AS Salesman, S.commission
+FROM Salesman S
+JOIN Customer C ON S.salesman_id = C.salesman_id;
+================================================================================================================================================
+CREATE TABLE Salesman (
+    salesman_id INT PRIMARY KEY,
+    salesman_name VARCHAR(50),
+    commission DECIMAL(10, 2)
+);
+INSERT INTO Salesman (salesman_id, salesman_name, commission)
+VALUES 
+    (101, 'John', 0.15),
+    (102, 'Alice', 0.12),
+    (103, 'Bob', 0.14),
+    (104, 'Mike', 0.10);
+CREATE TABLE Customer (
+    cust_id INT PRIMARY KEY,
+    cust_name VARCHAR(50),
+    city VARCHAR(50),
+    salesman_id INT,
+    FOREIGN KEY (salesman_id) REFERENCES Salesman(salesman_id)
+);
+INSERT INTO Customer (cust_id, cust_name, city, salesman_id)
+VALUES 
+    (201, 'ABC Corp', 'New York', 101),
+    (202, 'XYZ Inc', 'Los Angeles', 102),
+    (203, 'LMN Ltd', 'Chicago', 103),
+    (204, 'PQR Enterprises', 'Seattle', 104);
+SELECT C.cust_name, C.city, S.salesman_name AS Salesman, S.commission
+FROM Salesman S
+JOIN Customer C ON S.salesman_id = C.salesman_id
+WHERE S.commission > 0.12;
+===============================================================================================================================================
+CREATE TABLE Salesman (
+    salesman_id INT PRIMARY KEY,
+    salesman_name VARCHAR(50),
+    city VARCHAR(50),
+    commission DECIMAL(10, 2)
+);
+INSERT INTO Salesman (salesman_id, salesman_name, city, commission)
+VALUES 
+    (101, 'Ramesh', 'Mumbai', 0.15),
+    (102, 'Suresh', 'Delhi', 0.12),
+    (103, 'Rajesh', 'Bangalore', 0.14),
+    (104, 'Sanjay', 'Chennai', 0.10);
+CREATE TABLE Customer (
+    cust_id INT PRIMARY KEY,
+    cust_name VARCHAR(50),
+    city VARCHAR(50),
+    salesman_id INT,
+    FOREIGN KEY (salesman_id) REFERENCES Salesman(salesman_id)
+);
+INSERT INTO Customer (cust_id, cust_name, city, salesman_id)
+VALUES 
+    (201, 'Taj Enterprises', 'Mumbai', 102),
+    (202, 'Delhi Traders', 'Delhi', 103),
+    (203, 'Bangalore Foods', 'Bangalore', 101),
+    (204, 'Chennai Suppliers', 'Chennai', 104);
+SELECT C.cust_name AS "Customer Name", C.city AS "Customer City", 
+       S.salesman_name AS "Salesman", S.city AS "Salesman City", S.commission
+FROM Salesman S
+JOIN Customer C ON S.salesman_id = C.salesman_id
+WHERE S.city != C.city AND S.commission > 0.12;
+====================================================================================================================================================
