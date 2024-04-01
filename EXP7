@@ -1,0 +1,46 @@
+CREATE TABLE salesman (
+   salesman_id INTEGER PRIMARY KEY,
+   name TEXT NOT NULL,
+   city TEXT NOT NULL,
+   commission INTEGER NOT NULL
+);
+
+CREATE TABLE customer (
+   Customer_id INTEGER PRIMARY KEY,
+   Customer_name TEXT NOT NULL,
+   city TEXT NOT NULL,
+   Grade INTEGER NOT NULL,
+   salesman_id INTEGER NOT NULL,
+   FOREIGN KEY (salesman_id) REFERENCES salesman(salesman_id)
+);
+
+INSERT INTO salesman (salesman_id, name, city, commission)
+VALUES
+  (1001, 'Akash', 'Samrala', 10),
+  (1002, 'Aryan', 'Amb', 40),
+  (1003, 'Anish', 'kangra', 25);
+
+INSERT INTO customer (Customer_id, Customer_name, city, Grade, salesman_id)
+VALUES
+  (5001, 'Harman', 'Kolkata', 100, 1001),
+  (5002, 'Anish', 'Chennai', 200, 1002),
+  (5003, 'Purvansh', 'Hyderabad', 300, 1003),
+  (5004, 'Paramjiot', 'Ahmedabad', 400, 1001),
+  (5005, 'Neeta', 'Pune', 500, 1002);
+
+-- Selecting all combinations of salesman and customer where the salesman's city is not null
+SELECT a.name AS salesman_name, a.city AS salesman_city, b.Customer_name, b.city AS customer_city
+FROM salesman a 
+CROSS JOIN customer b 
+WHERE a.city IS NOT NULL;
+
+-- Selecting all combinations of salesman and customer where the salesman's city is not null and customer's grade is not null
+SELECT a.name AS salesman_name, a.city AS salesman_city, b.Customer_name, b.city AS customer_city
+FROM salesman a 
+CROSS JOIN customer b 
+WHERE a.city IS NOT NULL AND b.Grade IS NOT NULL;
+
+-- Selecting all combinations of salesman and customer
+SELECT a.name AS salesman_name, a.city AS salesman_city, b.Customer_name, b.city AS customer_city
+FROM salesman a 
+CROSS JOIN customer b;
