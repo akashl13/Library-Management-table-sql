@@ -1,0 +1,18 @@
+create table book(
+    book_id int auto_increment primary key,
+    title varchar(225) not null,
+    author varchar(225) not null,
+    publication_year int not null,
+    publisher varchar(225) not null,
+    description text,
+    price decimal(5,2) not null,
+    quantity int not null
+);
+insert into book(title, author, publication_year, publisher, description, price, quantity)
+values("DBMS","Anish","2024","john","fff","500","2"),
+       ("DBMS","Samir","2023","jenny","fff","600","3"),
+       ("DBMS","Rahul","2023","mike","hhh","499","5"),
+       ("DBMS","Akash","2024","miraley","aaa","745","4");
+select * from book;
+select * from book order by price asc;
+select * from book order by price desc;
