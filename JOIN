@@ -1,0 +1,43 @@
+create table empinfo(
+ empid int,
+ empfname varchar(50),
+ emplname varchar(50),
+ department varchar(50),
+ project varchar(50),
+ address varchar (50),
+ dob date, gender varchar(50)
+ );
+insert into empinfo values(1,"anish","chand","UIC","pd1","punjab","2004/10/04","male");
+insert into empinfo values(2,"sachin","kapoor","UIC","pc2","gujarat","2003/10/10","male");
+insert into empinfo values(3, "rita","rani","BSC","pd3","pune","2002/06/15","female");
+insert into empinfo values(4,"roshni","kumari","HM","pd5","delhi","2004/09/02","female");
+
+create table empposition(empid int,
+empposition varchar(50),
+dateofjoining date,
+salary int
+);
+insert into empposition values(1,"technical","2020/05/01",75000);
+insert into empposition values(2,"manager","2020/03/03",50000);
+insert into empposition values(3,"compounder","2020/04/02",45000);
+insert into empposition values(4,"ceo","2020/04/03",30000);
+
+select * from empinfo;
+select * from empposition;
+
+SELECT 
+    empinfo.empfname,
+    empinfo.emplname,
+    empposition.empposition
+FROM 
+    empinfo
+INNER JOIN 
+    empposition
+ON 
+    empinfo.empid = empposition.empid;
+/* select
+table1.column1,table.column2,table2.column1,
+from 
+table1 inner join table2
+on 
+table1.matching_column = table2.matching_column;
