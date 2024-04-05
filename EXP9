@@ -1,0 +1,14 @@
+CREATE TABLE prescriptions (
+  id INT PRIMARY KEY ,
+  patient_id INT,
+  medication_id INT,
+  dosage VARCHAR(255),
+  FOREIGN KEY (patient_id) REFERENCES patients(id),
+  FOREIGN KEY (medication_id) REFERENCES medications(id)
+);
+
+INSERT INTO prescriptions (patient_id, medication_id, dosage)
+VALUES (1, 101, '1 tablet twice daily'),
+       (2, 102, '2 tablets daily'),
+       (3, 103, '1 mL every 8 hours');
+
