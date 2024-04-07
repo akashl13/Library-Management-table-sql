@@ -18,8 +18,8 @@ CREATE TABLE Invoices (
 
 -- Insert sample data into Patients table
 INSERT INTO Patients (PatientID, Name, Age, Gender, Allergies)
-VALUES (1, 'John Doe', 30, 'Male', 'Penicillin'),
-       (2, 'Jane Smith', 40, 'Female', NULL);
+VALUES (1, 'Akash', 20, 'Male', 'Penicillin'),
+       (2, 'Aryan', 19, 'Female', NULL);
 
 -- Insert sample data into Invoices table
 INSERT INTO Invoices (InvoiceID, PatientID, Service, Amount, Paid)
