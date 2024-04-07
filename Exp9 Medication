@@ -1,0 +1,45 @@
+-- Create tables
+CREATE TABLE Patients (
+    PatientID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    Age INT,
+    Gender VARCHAR(10),
+    Allergies VARCHAR(100)
+);
+
+CREATE TABLE MedicalHistory (
+    HistoryID INT PRIMARY KEY,
+    PatientID INT,
+    Condition VARCHAR(100),
+    Surgery VARCHAR(100),
+    Date DATE,
+    FOREIGN KEY (PatientID) REFERENCES Patients(PatientID)
+);
+
+-- Insert sample data into Patients table
+INSERT INTO Patients (PatientID, Name, Age, Gender, Allergies)
+VALUES (1, 'John Doe', 30, 'Male', 'Penicillin'),
+       (2, 'Jane Smith', 40, 'Female', NULL);
+
+-- Insert sample data into MedicalHistory table
+INSERT INTO MedicalHistory (HistoryID, PatientID, Condition, Surgery, Date)
+VALUES (1, 1, 'Sinusitis', NULL, '2024-04-01'),
+       (2, 1, 'Broken Arm', NULL, '2024-03-15'),
+       (3, 2, 'Appendicitis', 'Appendectomy', '2023-06-20');
+
+-- Retrieve patient records along with their medical history details
+SELECT Patients.Name, Patients.Age, Patients.Gender, MedicalHistory.Condition, MedicalHistory.Surgery, MedicalHistory.Date
+FROM Patients
+INNER JOIN MedicalHistory ON Patients.PatientID = MedicalHistory.PatientID;
+
+-- Filter patients based on specific medical conditions
+SELECT Patients.Name, Patients.Age, Patients.Gender, MedicalHistory.Condition, MedicalHistory.Surgery, MedicalHistory.Date
+FROM Patients
+INNER JOIN MedicalHistory ON Patients.PatientID = MedicalHistory.PatientID
+WHERE MedicalHistory.Condition = 'Sinusitis';
+
+-- Filter patients based on specific surgeries
+SELECT Patients.Name, Patients.Age, Patients.Gender, MedicalHistory.Condition, MedicalHistory.Surgery, MedicalHistory.Date
+FROM Patients
+INNER JOIN MedicalHistory ON Patients.PatientID = MedicalHistory.PatientID
+WHERE MedicalHistory.Surgery = 'Appendectomy';
