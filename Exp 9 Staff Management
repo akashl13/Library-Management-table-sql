@@ -17,10 +17,10 @@ CREATE TABLE PatientAssignments (
 
 -- Insert sample data into Staff table
 INSERT INTO Staff (StaffID, Name, Role, Department)
-VALUES (1, 'John Smith', 'Nurse', 'ICU'),
-       (2, 'Emily Johnson', 'Doctor', 'Cardiology'),
-       (3, 'Michael Brown', 'Administrative Staff', 'Reception'),
-       (4, 'Jessica Miller', 'Nurse', 'Pediatrics');
+VALUES (1, 'Aryan', 'Nurse', 'ICU'),
+       (2, 'Akash', 'Doctor', 'Cardiology'),
+       (3, 'Anish', 'Administrative Staff', 'Reception'),
+       (4, 'Harman', 'Nurse', 'Pediatrics');
 
 -- Insert sample data into PatientAssignments table
 INSERT INTO PatientAssignments (AssignmentID, PatientID, StaffID, Role)
