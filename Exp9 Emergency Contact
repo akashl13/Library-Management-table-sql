@@ -1,0 +1,35 @@
+-- Create tables
+CREATE TABLE Patients (
+    PatientID INT PRIMARY KEY,
+    Name VARCHAR(50)
+);
+
+CREATE TABLE EmergencyContacts (
+    ContactID INT PRIMARY KEY,
+    PatientID INT,
+    Relationship VARCHAR(50),
+    Name VARCHAR(50),
+    PhoneNumber VARCHAR(15),
+    FOREIGN KEY (PatientID) REFERENCES Patients(PatientID)
+);
+
+-- Insert sample data into Patients table
+INSERT INTO Patients (PatientID, Name)
+VALUES (1, 'John Doe'),
+       (2, 'Jane Doe');
+
+-- Insert sample data into EmergencyContacts table
+INSERT INTO EmergencyContacts (ContactID, PatientID, Relationship, Name, PhoneNumber)
+VALUES (1, 1, 'Spouse', 'Jane Doe', '555-123-4567'),
+       (2, 2, 'Parent', 'John Smith', '555-987-6543');
+
+-- Associate patients with their emergency contact details using INNER JOIN
+SELECT Patients.Name AS Patient_Name, EmergencyContacts.Name AS Emergency_Contact_Name, EmergencyContacts.PhoneNumber
+FROM Patients
+INNER JOIN EmergencyContacts ON Patients.PatientID = EmergencyContacts.PatientID;
+
+-- Filter patients based on emergency contact information using WHERE clause
+SELECT Patients.Name AS Patient_Name, EmergencyContacts.Name AS Emergency_Contact_Name, EmergencyContacts.PhoneNumber
+FROM Patients
+INNER JOIN EmergencyContacts ON Patients.PatientID = EmergencyContacts.PatientID
+WHERE EmergencyContacts.Relationship = 'Spouse';
