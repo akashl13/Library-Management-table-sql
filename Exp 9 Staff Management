@@ -1,0 +1,44 @@
+-- Create tables
+CREATE TABLE Staff (
+    StaffID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    Role VARCHAR(50),
+    Department VARCHAR(50)
+);
+
+CREATE TABLE PatientAssignments (
+    AssignmentID INT PRIMARY KEY,
+    PatientID INT,
+    StaffID INT,
+    Role VARCHAR(50),
+    FOREIGN KEY (PatientID) REFERENCES Patients(PatientID),
+    FOREIGN KEY (StaffID) REFERENCES Staff(StaffID)
+);
+
+-- Insert sample data into Staff table
+INSERT INTO Staff (StaffID, Name, Role, Department)
+VALUES (1, 'John Smith', 'Nurse', 'ICU'),
+       (2, 'Emily Johnson', 'Doctor', 'Cardiology'),
+       (3, 'Michael Brown', 'Administrative Staff', 'Reception'),
+       (4, 'Jessica Miller', 'Nurse', 'Pediatrics');
+
+-- Insert sample data into PatientAssignments table
+INSERT INTO PatientAssignments (AssignmentID, PatientID, StaffID, Role)
+VALUES (1, 1, 1, 'Nurse'),
+       (2, 1, 2, 'Doctor'),
+       (3, 2, 4, 'Nurse');
+
+-- Associate patients with their attending healthcare professionals using INNER JOIN
+SELECT Patients.Name AS Patient_Name, Staff.Name AS Staff_Name, Staff.Role, Staff.Department
+FROM Patients
+INNER JOIN PatientAssignments ON Patients.PatientID = PatientAssignments.PatientID
+INNER JOIN Staff ON PatientAssignments.StaffID = Staff.StaffID;
+
+-- Filter staff based on their roles or departments
+SELECT Name, Role, Department
+FROM Staff
+WHERE Role = 'Nurse';
+
+SELECT Name, Role, Department
+FROM Staff
+WHERE Department = 'Cardiology';
