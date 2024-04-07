@@ -1,0 +1,50 @@
+-- Create tables
+CREATE TABLE Patients (
+    PatientID INT PRIMARY KEY,
+    Name VARCHAR(50)
+);
+
+CREATE TABLE LabTests (
+    TestID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    Type VARCHAR(50)
+);
+
+CREATE TABLE LabTestResults (
+    ResultID INT PRIMARY KEY,
+    TestID INT,
+    PatientID INT,
+    ResultValue FLOAT,
+    FOREIGN KEY (TestID) REFERENCES LabTests(TestID),
+    FOREIGN KEY (PatientID) REFERENCES Patients(PatientID)
+);
+
+-- Insert sample data into Patients table
+INSERT INTO Patients (PatientID, Name)
+VALUES (1, 'John Doe'),
+       (2, 'Jane Doe');
+
+-- Insert sample data into LabTests table
+INSERT INTO LabTests (TestID, Name, Type)
+VALUES (1, 'Blood Glucose', 'Chemistry'),
+       (2, 'Cholesterol', 'Chemistry'),
+       (3, 'Complete Blood Count', 'Hematology');
+
+-- Insert sample data into LabTestResults table
+INSERT INTO LabTestResults (ResultID, TestID, PatientID, ResultValue)
+VALUES (1, 1, 1, 100),
+       (2, 2, 1, 200),
+       (3, 3, 2, 10000);
+
+-- Associate patients with their scheduled lab tests and results using INNER JOIN
+SELECT Patients.Name AS Patient_Name, LabTests.Name AS Test_Name, LabTestResults.ResultValue
+FROM Patients
+INNER JOIN LabTestResults ON Patients.PatientID = LabTestResults.PatientID
+INNER JOIN LabTests ON LabTestResults.TestID = LabTests.TestID;
+
+-- Filter patients based on specific test results or test types using WHERE clause
+SELECT Patients.Name AS Patient_Name, LabTests.Name AS Test_Name, LabTestResults.ResultValue
+FROM Patients
+INNER JOIN LabTestResults ON Patients.PatientID = LabTestResults.PatientID
+INNER JOIN LabTests ON LabTestResults.TestID = LabTests.TestID
+WHERE LabTests.Type = 'Chemistry' AND LabTestResults.ResultValue > 150; 
