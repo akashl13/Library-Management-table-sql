@@ -1,0 +1,74 @@
+-- Create tables
+CREATE TABLE Patients (
+    PatientID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    Age INT,
+    Gender VARCHAR(10),
+    Allergies VARCHAR(100)
+);
+
+CREATE TABLE Medications (
+    MedicationID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    Type VARCHAR(50) -- e.g., Antibiotic, Painkiller, etc.
+);
+
+CREATE TABLE Prescriptions (
+    PrescriptionID INT PRIMARY KEY,
+    PatientID INT,
+    MedicationID INT,
+    Dosage VARCHAR(50),
+    FOREIGN KEY (PatientID) REFERENCES Patients(PatientID),
+    FOREIGN KEY (MedicationID) REFERENCES Medications(MedicationID)
+);
+
+CREATE TABLE MedicalHistory (
+    HistoryID INT PRIMARY KEY,
+    PatientID INT,
+    Diagnosis VARCHAR(100),
+    Date DATE,
+    FOREIGN KEY (PatientID) REFERENCES Patients(PatientID)
+);
+
+
+-- Insert sample data into Patients table
+INSERT INTO Patients (PatientID, Name, Age, Gender, Allergies)
+VALUES (1, 'Akash', 30, 'Male', 'Penicillin');
+
+
+-- Insert sample data into Medications table
+INSERT INTO Medications (MedicationID, Name, Type)
+VALUES (1, 'Amoxicillin', 'Antibiotic'),
+       (2, 'Ibuprofen', 'Painkiller');
+
+-- Insert sample data into Prescriptions table
+INSERT INTO Prescriptions (PrescriptionID, PatientID, MedicationID, Dosage)
+VALUES (1, 1, 1, '500mg twice daily'),
+       (2, 1, 2, '400mg as needed');
+
+-- Insert sample data into MedicalHistory table
+INSERT INTO MedicalHistory (HistoryID, PatientID, Diagnosis, Date)
+VALUES (1, 1, 'Sinusitis', '2024-04-01'),
+       (2, 1, 'Broken Arm', '2024-03-15');
+
+
+SELECT Patients.Name, Medications.Name AS Medication, Prescriptions.Dosage, MedicalHistory.Diagnosis, MedicalHistory.Date
+FROM Patients
+INNER JOIN Prescriptions ON Patients.PatientID = Prescriptions.PatientID
+INNER JOIN Medications ON Prescriptions.MedicationID = Medications.MedicationID
+INNER JOIN MedicalHistory ON Patients.PatientID = MedicalHistory.PatientID;
+
+
+-- Example: Filter prescriptions based on medication type
+SELECT Patients.Name, Medications.Name AS Medication, Prescriptions.Dosage
+FROM Patients
+INNER JOIN Prescriptions ON Patients.PatientID = Prescriptions.PatientID
+INNER JOIN Medications ON Prescriptions.MedicationID = Medications.MedicationID
+WHERE Medications.Type = 'Antibiotic';
+
+-- Example: Filter prescriptions based on patient allergies
+SELECT Patients.Name,Medications.Name AS Medication, Prescriptions.Dosage
+FROM Patients
+INNER JOIN Prescriptions ON Patients.PatientID = Prescriptions.PatientID
+INNER JOIN Medications ON Prescriptions.MedicationID = Medications.MedicationID
+WHERE Patients.Allergies LIKE '%Penicillin%';
