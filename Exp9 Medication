@@ -18,8 +18,8 @@ CREATE TABLE MedicalHistory (
 
 -- Insert sample data into Patients table
 INSERT INTO Patients (PatientID, Name, Age, Gender, Allergies)
-VALUES (1, 'John Doe', 30, 'Male', 'Penicillin'),
-       (2, 'Jane Smith', 40, 'Female', NULL);
+VALUES (1, 'Akash', 21, 'Male', 'Penicillin'),
+       (2, 'Aryan', 19, 'Female', NULL);
 
 -- Insert sample data into MedicalHistory table
 INSERT INTO MedicalHistory (HistoryID, PatientID, Condition, Surgery, Date)
