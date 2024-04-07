@@ -1,0 +1,70 @@
+-- Create tables
+CREATE TABLE Patients (
+    PatientID INT PRIMARY KEY,
+    Name VARCHAR(50)
+);
+
+CREATE TABLE Wards (
+    WardID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    Capacity INT
+);
+
+CREATE TABLE Beds (
+    BedID INT PRIMARY KEY,
+    WardID INT,
+    Available BOOLEAN,
+    FOREIGN KEY (WardID) REFERENCES Wards(WardID)
+);
+
+CREATE TABLE PatientAssignments (
+    AssignmentID INT PRIMARY KEY,
+    PatientID INT,
+    BedID INT,
+    FOREIGN KEY (PatientID) REFERENCES Patients(PatientID),
+    FOREIGN KEY (BedID) REFERENCES Beds(BedID)
+);
+
+-- Insert sample data into Patients table
+INSERT INTO Patients (PatientID, Name)
+VALUES (1, 'John Doe'),
+       (2, 'Jane Doe');
+
+-- Insert sample data into Wards table
+INSERT INTO Wards (WardID, Name, Capacity)
+VALUES (1, 'ICU', 10),
+       (2, 'Pediatrics', 15);
+
+-- Insert sample data into Beds table
+INSERT INTO Beds (BedID, WardID, Available)
+VALUES (1, 1, TRUE),
+       (2, 1, FALSE),
+       (3, 2, TRUE),
+       (4, 2, TRUE);
+
+-- Insert sample data into PatientAssignments table
+INSERT INTO PatientAssignments (AssignmentID, PatientID, BedID)
+VALUES (1, 1, 2),
+       (2, 2, 3);
+
+-- Associate patients with their assigned ward and bed using INNER JOIN
+SELECT Patients.Name AS Patient_Name, Wards.Name AS Ward_Name, Beds.BedID
+FROM Patients
+INNER JOIN PatientAssignments ON Patients.PatientID = PatientAssignments.PatientID
+INNER JOIN Beds ON PatientAssignments.BedID = Beds.BedID
+INNER JOIN Wards ON Beds.WardID = Wards.WardID;
+
+-- Filter patients based on their current ward or bed status
+SELECT Patients.Name AS Patient_Name, Wards.Name AS Ward_Name, Beds.BedID
+FROM Patients
+INNER JOIN PatientAssignments ON Patients.PatientID = PatientAssignments.PatientID
+INNER JOIN Beds ON PatientAssignments.BedID = Beds.BedID
+INNER JOIN Wards ON Beds.WardID = Wards.WardID
+WHERE Beds.Available = TRUE;
+
+SELECT Patients.Name AS Patient_Name, Wards.Name AS Ward_Name, Beds.BedID
+FROM Patients
+INNER JOIN PatientAssignments ON Patients.PatientID = PatientAssignments.PatientID
+INNER JOIN Beds ON PatientAssignments.BedID = Beds.BedID
+INNER JOIN Wards ON Beds.WardID = Wards.WardID
+WHERE Wards.Name = 'ICU';
