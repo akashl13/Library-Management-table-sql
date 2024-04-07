@@ -1,0 +1,45 @@
+-- Create tables
+CREATE TABLE Patients (
+    PatientID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    Age INT,
+    Gender VARCHAR(10),
+    Allergies VARCHAR(100)
+);
+
+CREATE TABLE Invoices (
+    InvoiceID INT PRIMARY KEY,
+    PatientID INT,
+    Service VARCHAR(100),
+    Amount DECIMAL(10, 2),
+    Paid BOOLEAN,
+    FOREIGN KEY (PatientID) REFERENCES Patients(PatientID)
+);
+
+-- Insert sample data into Patients table
+INSERT INTO Patients (PatientID, Name, Age, Gender, Allergies)
+VALUES (1, 'John Doe', 30, 'Male', 'Penicillin'),
+       (2, 'Jane Smith', 40, 'Female', NULL);
+
+-- Insert sample data into Invoices table
+INSERT INTO Invoices (InvoiceID, PatientID, Service, Amount, Paid)
+VALUES (1, 1, 'Consultation', 100.00, TRUE),
+       (2, 1, 'X-Ray', 150.00, FALSE),
+       (3, 2, 'Blood Test', 80.00, TRUE);
+
+-- Link patient records with billing details using INNER JOIN
+SELECT Patients.Name AS Patient_Name, Invoices.InvoiceID, Invoices.Service, Invoices.Amount, Invoices.Paid
+FROM Patients
+INNER JOIN Invoices ON Patients.PatientID = Invoices.PatientID;
+
+-- Filter patients based on outstanding bills
+SELECT Patients.Name AS Patient_Name, Invoices.InvoiceID, Invoices.Service, Invoices.Amount, Invoices.Paid
+FROM Patients
+INNER JOIN Invoices ON Patients.PatientID = Invoices.PatientID
+WHERE Invoices.Paid = FALSE;
+
+-- Filter patients based on specific services received
+SELECT Patients.Name AS Patient_Name, Invoices.InvoiceID, Invoices.Service, Invoices.Amount, Invoices.Paid
+FROM Patients
+INNER JOIN Invoices ON Patients.PatientID = Invoices.PatientID
+WHERE Invoices.Service = 'X-Ray';
