@@ -21,8 +21,8 @@ CREATE TABLE LabTestResults (
 
 -- Insert sample data into Patients table
 INSERT INTO Patients (PatientID, Name)
-VALUES (1, 'John Doe'),
-       (2, 'Jane Doe');
+VALUES (1, 'Akash'),
+       (2, 'Aryan');
 
 -- Insert sample data into LabTests table
 INSERT INTO LabTests (TestID, Name, Type)
