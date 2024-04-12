@@ -1,0 +1,26 @@
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Age INT
+);
+
+INSERT INTO Employees (EmployeeID, Name, Age) VALUES
+(1, 'Aarav Kumar', 28),
+(2, 'Neha Patel', 32),
+(3, 'Rahul Singh', 30),
+(4, 'Priya Sharma', 27),
+(5, 'Sandeep Gupta', 29),
+(6, 'Deepika Mishra', 31),
+(7, 'Rohan Shah', 26),
+(8, 'Ananya Choudhury', 33),
+(9, 'Vivek Reddy', 34),
+(10, 'Shivani Joshi', 35),
+(11, 'Aditya Verma', 25),
+(12, 'Pooja Desai', 29),
+(13, 'Rajesh Tiwari', 27),
+(14, 'Kriti Singh', 31),
+(15, 'Amit Kumar', 30);
+
+SELECT Name
+FROM Employees
+WHERE Age BETWEEN 25 AND 35;
