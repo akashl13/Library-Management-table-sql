@@ -1,0 +1,169 @@
+
+-- Create Orders table
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY,
+    Product_Category VARCHAR(100),
+    Sales_Amount DECIMAL(10, 2)
+);
+
+-- Insert data into Orders table
+INSERT INTO Orders (OrderID, Product_Category, Sales_Amount) VALUES
+(1, 'Clothing', 150.50),
+(2, 'Electronics', 200.75),
+(3, 'Clothing', 100.00),
+(4, 'Electronics', 75.25),
+(5, 'Clothing', 300.00);
+
+-- Query to calculate total sales amount for each product category
+SELECT Product_Category, SUM(Sales_Amount) AS Total_Sales
+FROM Orders 
+GROUP BY Product_Category;
+===================================================================================================================================================
+
+-- Create Employees table
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Department VARCHAR(100),
+    Salary DECIMAL(10, 2)
+);
+
+-- Insert data into Employees table
+INSERT INTO Employees (EmployeeID, Name, Department, Salary) VALUES
+(1, 'John Doe', 'IT', 50000.00),
+(2, 'Jane Smith', 'HR', 60000.00),
+(3, 'Michael Johnson', 'IT', 55000.00),
+(4, 'Emily Davis', 'Finance', 70000.00),
+(5, 'David Brown', 'Finance', 75000.00),
+(6, 'Sarah Wilson', 'IT', 52000.00);
+
+-- Query to calculate average salary for each department with more than 5 employees
+SELECT Department, AVG(Salary) AS Avg_Salary
+FROM Employees 
+GROUP BY Department 
+HAVING COUNT(*) > 1;
+===================================================================================================================================================
+-- Create Products table
+CREATE TABLE Products (
+    Product_ID INT PRIMARY KEY,
+    Product_Name VARCHAR(100),
+    Price DECIMAL(10, 2)
+);
+
+-- Insert data into Products table
+INSERT INTO Products (Product_ID, Product_Name, Price) VALUES
+(1, 'Saree', 45.99),
+(2, 'Shirt', 29.99),
+(3, 'Trousers', 35.50),
+(4, 'Scarf', 15.75),
+(5, 'Shoes', 49.99);
+
+-- Query to select distinct product names
+SELECT DISTINCT Product_Name 
+FROM Products;
+
+===================================================================================================================================================
+-- Create Sales table
+CREATE TABLE Sales (
+    SaleID INT PRIMARY KEY,
+    Sales_Amount DECIMAL(10, 2)
+);
+
+-- Insert data into Sales table
+INSERT INTO Sales (SaleID, Sales_Amount) VALUES
+(1, 150.50),
+(2, 200.75),
+(3, 100.00),
+(4, 75.25),
+(5, 300.00);
+
+-- Query to calculate total sales amount, total orders, and average sale amount
+SELECT SUM(Sales_Amount) AS Total_Sales, COUNT(*) AS Total_Orders, AVG(Sales_Amount) AS Avg_Sale
+FROM Sales;
+===================================================================================================================================================
+
+
+-- Create Orders table
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY,
+    CustomerID INT,
+    OrderDate DATE,
+    TotalAmount DECIMAL(10, 2)
+);
+
+-- Create Customers table
+CREATE TABLE Customers (
+    CustomerID INT PRIMARY KEY,
+    CustomerName VARCHAR(100),
+    Email VARCHAR(100),
+    Phone VARCHAR(20)
+);
+
+-- Insert data into Orders table
+INSERT INTO Orders (OrderID, CustomerID, OrderDate, TotalAmount) VALUES
+(1, 101, '2024-04-01', 150.50),
+(2, 105, '2024-04-02', 200.75),
+(3, 110, '2024-04-03', 100.00),
+(4, 101, '2024-04-04', 75.25),
+(5, 105, '2024-04-05', 300.00);
+
+-- Insert data into Customers table
+INSERT INTO Customers (CustomerID, CustomerName, Email, Phone) VALUES
+(101, 'John Doe', 'john@example.com', '+1234567890'),
+(105, 'Jane Smith', 'jane@example.com', '+1987654321'),
+(110, 'Michael Johnson', 'michael@example.com', '+1122334455');
+
+-- Query to select data from Orders and Customers tables using INNER JOIN
+SELECT Orders.*, Customers.*
+FROM Orders 
+INNER JOIN Customers ON Orders.CustomerID = Customers.CustomerID;
+
+===================================================================================================================================================
+
+
+
+-- Create Employees table
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Department VARCHAR(100)
+);
+
+-- Insert data into Employees table
+INSERT INTO Employees (EmployeeID, Name, Department) VALUES
+(1, 'Ramesh Kumar', 'IT'),
+(2, 'Sunita Sharma', 'HR'),
+(3, 'Avinash Singh', 'IT'),
+(4, 'Ananya Gupta', 'Finance'),
+(5, 'Vikram Patel', 'Finance'),
+(6, 'Kavita Reddy', 'IT');
+
+-- Query to select names of employees from departments with more than 2 employees
+SELECT Name 
+FROM Employees 
+WHERE Department IN (SELECT Department 
+                     FROM Employees 
+                     GROUP BY Department 
+                     HAVING COUNT(*) > 2);
+===================================================================================================================================================
+-- Create Orders table
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY,
+    CustomerID INT,
+    OrderDate DATE,
+    TotalAmount DECIMAL(10, 2)
+);
+
+-- Insert data into Orders table
+INSERT INTO Orders (OrderID, CustomerID, OrderDate, TotalAmount) VALUES
+(1, 101, '2024-04-01', 1500.50),
+(2, 105, '2024-04-02', 200.75),
+(3, 110, '2024-04-03', 1000.00),
+(4, 101, '2024-04-04', 75.25),
+(5, 105, '2024-04-05', 3000.00);
+
+-- Create the HighSales view
+CREATE VIEW HighSales AS
+SELECT * 
+FROM Orders 
+WHERE TotalAmount > 1000.00
