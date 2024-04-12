@@ -1,0 +1,39 @@
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Age INT
+);
+
+INSERT INTO Employees (EmployeeID, Name, Age) VALUES
+(1, 'Aarav Kumar', 28),
+(2, 'Neha Patel', 32),
+(3, 'Rahul Singh', 30);
+
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY,
+    CustomerID INT,
+    OrderDate DATE,
+    TotalAmount DECIMAL(10, 2)
+);
+
+INSERT INTO Orders (OrderID, CustomerID, OrderDate, TotalAmount) VALUES
+(1, 101, '2024-04-01', 150.50),
+(2, 105, '2024-04-02', 200.75),
+(3, 110, '2024-04-03', 100.00);
+
+CREATE TABLE Products (
+    Product_ID INT PRIMARY KEY,
+    Product_Name VARCHAR(100),
+    Price DECIMAL(10, 2)
+);
+
+INSERT INTO Products (Product_ID, Product_Name, Price) VALUES
+(1, 'Saree', 45.99),
+(2, 'Shirt', 29.99),
+(3, 'Trousers', 35.50);
+
+SELECT Name FROM Employees WHERE Age BETWEEN 25 AND 35;
+
+SELECT * FROM Orders WHERE CustomerID IN (101, 105, 110);
+
+SELECT Product_Name FROM Products WHERE Product_Name LIKE 'S%';
