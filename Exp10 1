@@ -1,0 +1,14 @@
+CREATE TABLE Sales (
+    SaleID INT PRIMARY KEY,
+    Sales_Amount DECIMAL(10, 2)
+);
+
+INSERT INTO Sales (SaleID, Sales_Amount) VALUES
+(1, 150.50),
+(2, 200.75),
+(3, 100.00),
+(4, 75.25),
+(5, 300.00);
+
+SELECT SUM(Sales_Amount) AS Total_Sales, COUNT(*) AS Total_Orders, AVG(Sales_Amount) AS Avg_Sale
+FROM Sales;
