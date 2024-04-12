@@ -1,0 +1,15 @@
+CREATE TABLE Products (
+    Product_ID INT PRIMARY KEY,
+    Product_Name VARCHAR(100),
+    Price DECIMAL(10, 2)
+);
+
+INSERT INTO Products (Product_ID, Product_Name, Price) VALUES
+(1, 'Saree', 45.99),
+(2, 'Shirt', 29.99),
+(3, 'Trousers', 35.50),
+(4, 'Scarf', 15.75),
+(5, 'Shoes', 49.99);
+
+SELECT DISTINCT Product_Name, price
+FROM Products;
