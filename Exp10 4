@@ -1,0 +1,17 @@
+-- Create Orders table
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY,
+    Product_Category VARCHAR(100),
+    Sales_Amount DECIMAL(10, 2)
+);
+
+INSERT INTO Orders (OrderID, Product_Category, Sales_Amount) VALUES
+(1, 'Clothing', 150.50),
+(2, 'Electronics', 200.75),
+(3, 'Clothing', 100.00),
+(4, 'Electronics', 75.25),
+(5, 'Clothing', 300.00);
+
+SELECT Product_Category, SUM(Sales_Amount) AS Total_Sales
+FROM Orders 
+GROUP BY Product_Category;
